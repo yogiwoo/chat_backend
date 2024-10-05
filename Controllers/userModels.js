@@ -4,24 +4,22 @@ const expAsync=require('express-async-handler')
 const generateToken=require('./../Controllers/Config/generateToken')
 
 const loginController = expAsync(async (req, res) => {
+    console.log("hello")
     const { email, password } = req.body;
 
-    // Check if email and password are provided
     if (!email || !password) {
         return res.status(400).json('Email and password are required');
     }
 
-    // Find the user by email
     const user = await userModel.findOne({ email });
     if (!user) {
-        return res.status(401).json('Invalid email or password');
+        return res.status(401).json({message:"User not found"});
     }
 
-    // Direct password comparison (not recommended for production)
     if (user.password !== password) {
-        return res.status(401).json('Invalid email or password');
+        return res.status(401).json({ message: "Incorrect password" });
     }
-
+    //add bcrypt
     // If login is successful, generate a token
     const token = generateToken(user._id);
     const response = {
@@ -36,6 +34,7 @@ const loginController = expAsync(async (req, res) => {
 });
 
 const registerController = expAsync(async (req, res) => {
+    console.log("registers")
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {

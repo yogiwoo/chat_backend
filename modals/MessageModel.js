@@ -6,7 +6,7 @@ const messageModel=new Schema({
     sender:{type:ObjectId,ref:'User'},
     reciever:{type:ObjectId,ref:'User'},
     chat:{type:ObjectId,ref:'Chat'},
-
+    message:{type:String,default:""}
 },{
     timestamps:true
 })

@@ -3,8 +3,8 @@ const ObjectId=mongoose.Types.ObjectId;
 const Schema=mongoose.Schema;
 
 const chatModel=new Schema({
-    chatName:{},
-    isGroupChat:{},
+    chatName:{type:String},
+    isGroupChat:{type:String},
     users:[
         {type:ObjectId,ref:'User'}
     ],
