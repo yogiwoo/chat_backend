@@ -4,6 +4,7 @@ const dotenv=require('dotenv');
 const { default: mongoose } = require('mongoose');
 dotenv.config();
 const userRoute=require('./Routes/userRoutes');
+const chatRoute=require('./Routes/chatRoutes')
 const cors=require('cors');
 
 const corsOptions = {
@@ -31,6 +32,7 @@ app.get('/',(req,res)=>{
 })
 
 app.use('/user',userRoute);
+app.use('/chat',chatRoute)
 
 const PORT=process.env.PORT;
 app.listen(PORT,console.log("sevrer is running"))

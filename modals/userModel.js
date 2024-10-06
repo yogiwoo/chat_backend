@@ -3,6 +3,7 @@ const ObjectId=mongoose.Types.ObjectId;
 const Schema=mongoose.Schema;
 
 const userModel=new Schema({
+    image:{type:String,default:""},
     name:{type:String},
     email:{type:String},
     password:{type:String},
