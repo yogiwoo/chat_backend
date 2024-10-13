@@ -65,5 +65,16 @@ const registerController = expAsync(async (req, res) => {
     }
 });
 
+const searchUser=expAsync(async (req,res)=>{
+    const name=req.query.name;
+    let users=await userModel.find({name: {
+        $regex: "^" + req.query.string,
+        $options: "i"
+    }})
+    if(users.length>0){
+        res.status(200).json({"message":"users",users:users})
+    }
+})
 
-module.exports={loginController,registerController}
+
+module.exports={loginController,registerController,searchUser}

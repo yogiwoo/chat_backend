@@ -27,6 +27,7 @@ const sendMessage = async (req, res) => {
     //insert message alogn with the sender and receiver ids
     //try {
         let data = req.body;
+        console.log(data)
         let params = {
             sender: new ObjectId(data.sender),
             reciever: new ObjectId(data.reciever),
@@ -35,7 +36,7 @@ const sendMessage = async (req, res) => {
         }
         let saveMessage = await messageCollection.create(params);
         if (saveMessage) {
-            return res.status(200).json({ message: 'Message sent and saved' });
+            return res.status(200).json({ message: 'Message sent and saved' ,data:saveMessage});
         }
     // } catch (error) {
     //     return res.status(500).json({ message: "Internal server error" })
@@ -52,8 +53,22 @@ const loadAllPrevChats = async (req, res) => {
         return res.status(200).json({ message: 'Start a new conversation', allChatList });
     }
 }
-module.exports = {
+const fetchMyMsg=async (req,res)=>{
+    const chatId=new ObjectId(req.query.chatId);
+    const myChat=await messageCollection.find({chat:new ObjectId(chatId)})
+    .populate('sender','name')
+    .populate('reciever','name')
+    .sort({_id:-1});
+    if(myChat.length>0){
+        res.status(200).json({message:"messages",myChat});
+    }
+    else{
+        res.status(400).json({message:"no messages"});
+    }
+}
+module.exports = {  
     createPrivateChat,
     sendMessage,
-    loadAllPrevChats
+    loadAllPrevChats,
+    fetchMyMsg
 };
