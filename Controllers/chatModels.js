@@ -45,7 +45,7 @@ const sendMessage = async (req, res) => {
 const loadAllPrevChats = async (req, res) => {
     //list of all ppls with last msg
     //only lists chat session with older chat
-    let allChatList = await privateChat.find({ me: new ObjectId(req.query.userId) }).populate('they','name');
+    let allChatList = await privateChat.find({ me:new ObjectId(req.query.userId) }).populate('they','name');
     if (allChatList.length > 0) {
         return res.status(200).json({ message: 'Message send and saved', allChatList });
     }
