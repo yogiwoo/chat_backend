@@ -45,12 +45,23 @@ const sendMessage = async (req, res) => {
 const loadAllPrevChats = async (req, res) => {
     //list of all ppls with last msg
     //only lists chat session with older chat
+    let data2=[]
     let allChatList = await privateChat.find({ me:new ObjectId(req.query.userId) }).populate('they','name');
     if (allChatList.length > 0) {
-        return res.status(200).json({ message: 'Message send and saved', allChatList });
+       
+         data2=allChatList.map((itm)=>{
+            return{
+                chatId:itm._id,
+                myId:itm.me,
+                theirId:itm.they._id,
+                theirName:itm.they.name,
+                lastMessage:itm.latestMessage
+            }
+        })
+        return res.status(200).json({ message: 'Message send and saved', data2 });
     }
     else {
-        return res.status(200).json({ message: 'Start a new conversation', allChatList });
+        return res.status(200).json({ message: 'Start a new conversation', data2 });
     }
 }
 const fetchMyMsg=async (req,res)=>{
